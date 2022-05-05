@@ -1,6 +1,6 @@
 
-TOKEN = '2113022678:AAGk7LAtDR_rDBRQr1hxRkRt59QX4Wue0F4'
-admin_chat = '-741600735'
+TOKEN = '5398276055:AAG-1RWUZJQj0ZeQB7T8pgLU9MY-06sFj9c'
+admin_chat = '-673536293'
 
 
 # ТЗ следующее:

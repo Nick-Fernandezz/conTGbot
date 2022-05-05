@@ -10,14 +10,13 @@ kb_do_order = types.InlineKeyboardButton(text='Сделать заказ', callb
 kb_price = types.InlineKeyboardButton(text='Прайс', callback_data='kb_price')
 kb_actions = types.InlineKeyboardButton(text='Акции', callback_data='kb_actions')
 kb_works = types.InlineKeyboardButton(text='Наши работы', callback_data='kb_works')
-kb_about = types.InlineKeyboardButton(text='О нашей компании', callback_data='kb_about')
 kb_info = types.InlineKeyboardButton(text='Инфо', callback_data='kb_info')
-keyboardMainMenu.row(kb_do_order).add(kb_price, kb_actions, kb_works, kb_about).row(kb_info)
+keyboardMainMenu.row(kb_do_order).add(kb_price, kb_actions, kb_works, kb_info)
 
 # КЛАВИАТУРА в ожидании обработки
 keyboard_finish = types.InlineKeyboardMarkup(row_width=3)
-kb_complete = types.InlineKeyboardButton(text='☑', callback_data='kb_complete')
-kb_process = types.InlineKeyboardButton(text='⌛', callback_data='kb_process')
+kb_complete = types.InlineKeyboardButton(text='✔', callback_data='kb_complete')
+kb_process = types.InlineKeyboardButton(text='⚙', callback_data='kb_process')
 kb_denied = types.InlineKeyboardButton(text='❌', callback_data='kb_denied')
 keyboard_finish.add(kb_complete, kb_process, kb_denied)
 
@@ -37,7 +36,18 @@ total_input = {
 # Start message
 @bot.message_handler(['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, "Приветственное сообщение: Бла-Бла-Бла", reply_markup=keyboardMainMenu)
+    bot.send_message(message.chat.id, '💯 Быстро и выгодно вернём жизнь вашему кондиционеру.\n\n'
+                                      '❗ Компания "Холод ДВ"\n\n'
+                                      '📌 Работаем с 2010 года!\n\n'
+                                      '📌 Гарантия на выполненные работы!\n\n'
+                                      '📌 Только обученные специалисты!\n\n'
+                                      '📌 Работаем с профессиональным оборудованием и '
+                                      'антибактериальными растворами!\n\n', reply_markup=keyboardMainMenu)
+
+
+@bot.message_handler(['send_chat_id'])
+def send_chat_id(message):
+    bot.send_message(message.chat.id, message.chat.id)
 
 # Secret command for delete keyboard
 @bot.message_handler(['del_keyboard'])
@@ -61,23 +71,26 @@ def answer_callback(callback):
 
     # Button Price
     elif callback.data == 'kb_price':
-        bot.send_message(callback.message.chat.id, 'Здесь будет прайс')
+        bot.send_message(callback.message.chat.id, '✔ Диагностика - 500р. / бесплатная '
+                                                   '(если ремонт производит наша компания)\n\n'
+                                                   '✔ Дозаправка - от 500р. (При необходимости)\n\n'
+                                                   '✔ Чистка внутреннего блока - 1000р.\n\n'
+                                                   '✔ Чистка внешнего блока - 1000р.\n\n'
+                                                   '✔ Ремонт дренажной системы - 500р. / с полным разбором - 1000р.)\n\n'
+                                                   '✔ Замена электро-деталей - цена обговаривается после осмотра')
 
     # Button actions
     elif callback.data == 'kb_actions':
-        bot.send_message(callback.message.chat.id, 'Здесь будут акции')
+        bot.send_message(callback.message.chat.id, '*📣 Полное обслуживание кондиционера 2500р  весь май!*',
+                         parse_mode='Markdown')
 
     # Button our works
     elif callback.data == 'kb_works':
-        bot.send_message(callback.message.chat.id, 'Здесь будут работы с фото')
-
-    # Button about
-    elif callback.data == 'kb_about':
-        bot.send_message(callback.message.chat.id, 'Здесь будет информация о компании')
+        bot.send_message(callback.message.chat.id, 'Мы работаем над этим разделом :)')
 
     # Button info
     elif callback.data == 'kb_info':
-        bot.send_message(callback.message.chat.id, 'Здесь будет "инфа"')
+        bot.send_message(callback.message.chat.id, 'Мы работаем над этим разделом :)')
 
     # Button in report for set processed
     elif callback.data == 'kb_process':
@@ -90,7 +103,7 @@ def answer_callback(callback):
                                    f"Телефон: +{total_input['phone']}\n"
                                    f"Адрес: {total_input['location']}\n\n"
                                    f"Суть проблемы:\n{total_input['problem']}\n\n"
-                                   f"Статус: в обработке ⌛\n"
+                                   f"Статус: в обработке ⚙\n"
                                    f"@{callback.from_user.username}", callback.message.chat.id, callback.message.id,
                                    reply_markup=keyboard_processed)
 
@@ -105,7 +118,7 @@ def answer_callback(callback):
                                     f"Телефон: +{total_input['phone']}\n"
                                     f"Адрес: {total_input['location']}\n\n"
                                     f"Суть проблемы:\n{total_input['problem']}\n\n"
-                                    f"Статус: выполнен ☑\n"
+                                    f"Статус: выполнен ✔\n"
                                     f"@{callback.from_user.username}"))
 
     # Button in report for set denied
